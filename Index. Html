@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Happy Birthday 🎉</title>
+    <style>
+        body {
+            background: #0d0d0d;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        input, button {
+            padding: 10px;
+            margin: 5px;
+            border-radius: 5px;
+            border: none;
+        }
+        button {
+            cursor: pointer;
+        }
+        hr {
+            margin: 40px 0;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>🎉 Happy Birthday 🎉</h1>
+
+<p style="max-width:600px; margin:auto; line-height:1.6;">
+Hey… I made this just for you.<br><br>
+I really enjoy talking to you.<br>
+Hope your day feels special 💜
+</p>
+
+<hr>
+
+<h2>🎮 Guess My Number</h2>
+<p>Range: 1–100 | 10 attempts | 3 hints</p>
+
+<input type="number" id="guess" placeholder="Enter number">
+<button onclick="check()">Guess</button>
+<button onclick="giveHint()">Hint</button>
+
+<p id="result"></p>
+<p id="attempts">Attempts: 0 / 10</p>
+<p id="hints">Hints left: 3</p>
+
+<script>
+let number = 47; // 🔥 CHANGE THIS NUMBER
+let tries = 0;
+let maxTries = 10;
+let hintsUsed = 0;
+let gameOver = false;
+
+function check() {
+    if (gameOver) return;
+
+    let guess = Number(document.getElementById("guess").value);
+    if (!guess) return;
+
+    tries++;
+
+    if (guess === number) {
+        document.getElementById("result").innerHTML = "🎉 You win! Send screenshot!";
+        gameOver = true;
+        disableGame();
+    } 
+    else if (tries >= maxTries) {
+        document.getElementById("result").innerHTML = "💀 Game Over!";
+        gameOver = true;
+        disableGame();
+    } 
+    else if (guess > number) {
+        document.getElementById("result").innerHTML = "Too high!";
+    } 
+    else {
+        document.getElementById("result").innerHTML = "Too low!";
+    }
+
+    document.getElementById("attempts").innerHTML = "Attempts: " + tries + " / 10";
+}
+
+function giveHint() {
+    if (gameOver || hintsUsed >= 3) return;
+
+    hintsUsed++;
+
+    let hintText = "";
+
+    if (hintsUsed === 1) {
+        hintText = (number % 2 === 0) ? "EVEN number" : "ODD number";
+    } 
+    else if (hintsUsed === 2) {
+        hintText = (number > 50) ? "Greater than 50" : "50 or less";
+    } 
+    else {
+        hintText = "Between " + (number - 5) + " and " + (number + 5);
+    }
+
+    document.getElementById("result").innerHTML = "💡 " + hintText;
+    document.getElementById("hints").innerHTML = "Hints left: " + (3 - hintsUsed);
+}
+
+function disableGame() {
+    document.querySelectorAll("button").forEach(btn => btn.disabled = true);
+}
+</script>
+
+</body>
+</html>
